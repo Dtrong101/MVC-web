@@ -1,0 +1,164 @@
+﻿@model IEnumerable<WEB2.Models.OrderDetail>
+
+@{
+    ViewData["Title"] = "Giỏ hàng";
+}
+@section Styles {
+<link href="@Url.Content("/css/views/orderdetails/index.css")" rel="stylesheet" type="text/css" />
+
+}
+<main class="container mt-5" style="height: 100vh">
+
+<div class="colory-lg-3"">
+    @if (Model.Count() == 0){
+        <div style="display: grid; justify-content:center; align-items:center">
+                <h5 style="text-align: center">Có vẻ như giỏ hàng của bạn đang trống</h5>
+                <a style="margin:auto;" href="/">
+                    <img style="width:100%; height: 100%" src="https://lh3.googleusercontent.com/J1wyERnsSk6G30z8uS6iuvxngcf2Efe-SK0f62-InVnCNctTKghwuBIUfTAm0_90pRXxXw6wcch8mbq4vDh0EdN-24KqVIyeYZMXhsxmhPXX1WzUpmiW6ZJ1PUzWV-9RbnGq8WtFYlpfDTMjhdB_XMClemx_DYab86eb6ru3nWCcIKfxxYdMMusClXXJPzVWAI4hY8CMDpyrFLAA_laFBL00B3RHjXWJZm5JPNJebAyJiXfQuF40H5y7DzZ7rBA-uBBhTSLXuS3fUZt6stHtt0_0XTm6HWCf6Yb7zEN3Dc9VmNx6AhoZCnPZnO3vlbY-whEQOMqG2n5swZSh4VnZ4hnHskRttjSqX1E1VSueGjli1E6YgrD_pdjgeW49GpaiNCSw7tNwU6zfizsiqVlWQ7wjVCcZ4Q_8JPTi9HwDJgdN5n5_IeaEh0Sp9PDqubjK4FXXRBUHPeTapyFSK7RzlaQil9lDsI4T35V4CXchL91CeUYsCW6bqTTiOVAIyz_2GRWPgtxzvZqPBiGTKyuicmbMj46Q-3axCsKg5SDYvfDqyZ0i31U7cTaoTdy-GkkhVr5sE5oYDttULRw_wFO_dhhnEJPhigVBOUlNKHw8b5iTBpv7BkCHeE3hGKrUAoZiPbz4Qm_zf5g2C9wUSRn5c98rWNGpiI6BE05l3AvfQvWRVENf7vHC-bB_tNlZnxcejnJ_TPi6kOqYE94b4yGFQgtp=w486-h409-no?authuser=1"/>
+                </a>
+                 <a style="margin:auto;" href="/">
+                     Về trang chủ
+                </a>
+        </div>
+    }
+     else {
+    <table class="tbl">
+        <thead>
+            <tr>
+                <th>
+                    
+                </th>
+                <th>
+                    Sản phẩm
+                </th>
+                <th>
+                    Phiên bản
+                </th>
+                <th>
+                    Màu sắc
+                </th>
+                <th>
+                   Số lượng
+                </th>
+                <th>
+                    Đơn giá 
+                </th>
+                <th>
+                    Thành tiền
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                  Boolean vis = true;
+            }     
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                     <a href="/products/details/@item.ProductId">
+                         <img src="@Html.DisplayFor(modelItem => item.Product.Picture)" alt = "@Html.DisplayFor(modelItem => item.Product.ProductName)" />
+                     </a>   
+                    </td>
+                    <td>
+                        <a class="prd-link" href="/products/details/@item.ProductId">
+                            @Html.DisplayFor(modelItem => item.Product.ProductName)
+                        </a>
+                    </td>
+                   <td>
+                        @Html.DisplayFor(modelItem => item.Product.Version)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.Color)
+                    </td>
+                    <td class="quantity">
+                        <div class="quantity-d">
+                            <div class="eLoUcd input-quantity">
+                                <button class="_2sBbZC minus">
+                                    <svg enable-background="new 0 0 10 10" viewBox="0 0 10 10" x="0" y="0" class="svg-icon">
+                                        <polygon points="4.5 4.5 3.5 4.5 0 4.5 0 5.5 3.5 5.5 4.5 5.5 10 5.5 10 4.5">
+                                        </polygon>
+                                        </svg>
+                                        </button>
+                                <input class="_2sBbZC k-s4Da quantity_v" type="text" role="spinbutton" value="@Html.DisplayFor(modelItem => item.Quantity)" disabled />
+                                <button class="_2sBbZC add">
+                                    <svg enable-background="new 0 0 10 10" viewBox="0 0 10 10" x="0" y="0" class="svg-icon icon-plus-sign">
+                                        <polygon points="10 4.5 5.5 4.5 5.5 0 4.5 0 4.5 4.5 0 4.5 0 5.5 4.5 5.5 4.5 10 5.5 10 5.5 5.5 10 5.5">
+                                        </polygon>
+                                        </svg>
+                               </button>
+                           </div>
+                           </div>
+                    </td>
+                    <td>
+                        <div class="root1">@Html.DisplayFor(modelItem => item.Price)</div>
+                        <div class="root2" style="display: none"></div>
+                        <span class="price-fld">@Html.DisplayFor(modelItem => item.Price)</span>
+                    </td>
+                    <td>
+                        <span class="total-fld">@Html.DisplayFor(modelItem => item.Total)</span>
+                    </td>
+                    <td>
+                        <a class="btn del-btn" href="/orderdetails/delete?productid=@item.ProductId&orderid=@item.OrderId">Xóa</a>
+                    </td>
+                    
+                         <td class="show">@Html.DisplayFor(modelItem => item.ProductId)</td>
+                    <td class="show">@Html.DisplayFor(modelItem => item.OrderId)</td>
+                </tr>
+                if( vis == true) {
+                    <div style="display: block" id="thanhtoan">
+                        <a href="/orderdetails/pay/@item.OrderId" class="btn btn-default" >Thanh toán</a>
+                    </div>
+                    
+                    vis = false;
+                }  
+            }
+        </tbody>   
+    </table>
+    <div class="total"> 
+        <h5>Tạm tính: <span id="m_total"></span></h5>
+    </div>
+
+    }
+</div>
+<script src="@Url.Content("~/js/views/orderdetails/index.js")"></script>
+<script>
+                    $('.show').hide();
+        var table = document.getElementsByTagName("table")[0];
+        var tbody = table.getElementsByTagName("tbody")[0];
+        var cells;
+        var quan;
+           tbody.onclick = function (e) {
+
+            e = e || window.event;
+            var target = e.srcElement || e.target;
+            while (target && target.nodeName !== "TR") {
+                target = target.parentNode;
+            }
+            if (target) {
+                 cells = target.getElementsByTagName("td");
+                 quan = cells[4].getElementsByTagName('input')[0].value;
+                 console.log(quan);
+            }
+
+             var model = new Object();
+            model.Orderid =  cells[9].innerHTML;
+            model.ProductId = cells[8].innerHTML;
+            model.Quantity = quan;
+            console.log(model);
+            jQuery.ajax({
+            type: "POST",
+            url: "@Url.Action("Add","OrderDetails")",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify( model ),
+            processData: true,
+                    cache: false,
+            });
+
+        };
+</script>
+</main>
+
+
+     
